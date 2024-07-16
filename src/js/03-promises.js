@@ -30,17 +30,19 @@ promiseForm.addEventListener('submit', handleSubmit);
 function handleSubmit(event) {
   event.preventDefault();
 
-  const form = event.target;
-  VALUE_FIRST_DELAY = form.elements.delay.value;
-  VALUE_DELAY_STEP = form.elements.step.value;
-  VALUE_AMOUNT = form.elements.amount.value;
+  const form = event.target.elements;
+  //можна дестриктуризувати: const {delay, step, amount} = event.target.elements;
+  
+  VALUE_FIRST_DELAY = form.delay.value;
+  VALUE_DELAY_STEP = form.step.value;
+  VALUE_AMOUNT = form.amount.value;
   let step = Number(VALUE_FIRST_DELAY);
 
   console.log('CLICK handleSubmit')
 
   for(let i = 1; i <= VALUE_AMOUNT; i += 1) {
-   const prom = createPromise(i, step);
-   prom.then(({position, delay}) => {
+   const promise = createPromise(i, step);
+   promise.then(({position, delay}) => {
     Notify.success(`✅ Fulfilled promise '${position}' in - ${delay}ms`)
    }).catch(({position, delay}) => {
     return Notify.failure(`❌ Rejected promise '${position}' in - ${delay}ms`)
@@ -48,6 +50,10 @@ function handleSubmit(event) {
    step += Number(VALUE_DELAY_STEP);
   }
 }
+
+
+
+// event.target.reset();
 
 
 
